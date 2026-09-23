@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Check, Eye, FilePlus2 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { MobileDock } from "@/components/mobile-dock";
-import { ScrollExpand } from "@/components/scroll-expand";
+import { ScrollExpand } from "@/components/ui/ScrollExpand";
 import { AccordionGallery } from "@/components/accordion-gallery";
 import { GradientWaves } from "@/components/gradient-waves";
 import { ThumbnailCarousel } from "@/components/ui/thumbnail-carousel";
@@ -65,7 +65,7 @@ function Index() {
         {/* Section 1: Hero */}
         <section className="hero" aria-labelledby="hero-title">
           <video autoPlay muted loop playsInline preload="metadata" poster="/images/A.jpg">
-            <source src="/videos/b.mp4" type="video/mp4" />
+            <source src="/videos/video22.mp4" type="video/mp4" />
           </video>
           <div className="hero-shade" />
           <div className="hero-content">
@@ -108,26 +108,21 @@ function Index() {
 
           <div className="story-reveal-wrap">
             <ScrollExpand
-              src="/images/aa.jpg"
-              alt="View across Corridor Hills from a residence balcony"
+              src="/images/h.jpg"
+              alt="Corridor Hills Residence"
               title="More than a room."
-              scrollHint="Scroll to expand"
-              startWidth={62}
-              startHeight={68}
-              startRadius={10}
+              scrollHint="Scroll"
+              startWidth={42}
+              startHeight={58}
+              startRadius={24}
               endRadius={0}
-              mediaZoom={1.2}
-              scrollDistance={0.85}
-              holdDistance={0.2}
-              useWindowScroll={true}
+              mediaZoom={1.35}
+              scrollDistance={1.2}
+              holdDistance={0.35}
+              smoothing={0.1}
+              overlayScrim={0.45}
+              useWindowScroll
             >
-              <div className="story-overlay-card">
-                <span className="story-tag">CH / 02 &bull; PERSPECTIVE</span>
-                <p className="story-quote">
-                  "Thoughtful architecture, quiet study environments, and communal living in
-                  balance."
-                </p>
-              </div>
             </ScrollExpand>
           </div>
         </section>

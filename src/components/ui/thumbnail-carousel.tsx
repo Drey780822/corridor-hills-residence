@@ -20,13 +20,13 @@ const DEFAULT_CORRIDOR_HILLS_ITEMS: CarouselItem[] = [
   },
   {
     id: 2,
-    url: "/images/r.jpg",
+    url: "/images/pic5.jpg",
     title: "Corridor Hills Residence",
     alt: "Corridor Hills Residence architecture and grounds",
   },
   {
     id: 3,
-    url: "/images/pic5.jpg",
+    url: "/images/r.jpg",
     title: "Corridor Hills Residence",
     alt: "Corridor Hills Residence residential pathways",
   },
@@ -38,7 +38,7 @@ const DEFAULT_CORRIDOR_HILLS_ITEMS: CarouselItem[] = [
   },
   {
     id: 5,
-    url: "/images/t.jpg",
+    url: "/images/pic13.jpg",
     title: "Corridor Hills Residence",
     alt: "Corridor Hills Residence peaceful evening atmosphere",
   },
