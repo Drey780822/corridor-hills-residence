@@ -5,6 +5,7 @@ import { MobileDock } from "@/components/mobile-dock";
 import { ScrollExpand } from "@/components/scroll-expand";
 import { AccordionGallery } from "@/components/accordion-gallery";
 import { GradientWaves } from "@/components/gradient-waves";
+import { ThumbnailCarousel } from "@/components/ui/thumbnail-carousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -145,13 +146,9 @@ function Index() {
                 Study. Connect. Show up for one another. This is residence life, lived together.
               </p>
             </div>
-            <figure className="community-media">
-              <img
-                src="/images/w.jpg"
-                alt="Corridor Hills residents together on a sports court"
-                loading="lazy"
-              />
-            </figure>
+            <div className="community-media">
+              <ThumbnailCarousel />
+            </div>
           </div>
         </section>
 

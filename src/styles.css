@@ -525,7 +525,7 @@ figcaption {
 .community-media {
   margin: 0;
 }
-.community-media img {
+.community-media > img {
   width: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
@@ -824,7 +824,7 @@ footer {
     align-items: center;
     gap: 6rem;
   }
-  .community-media img {
+  .community-media > img {
     aspect-ratio: 5/4;
   }
   .gallery {
