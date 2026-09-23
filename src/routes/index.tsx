@@ -2,14 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Check, Eye, FilePlus2 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { MobileDock } from "@/components/mobile-dock";
-import { MediaSlideshow } from "@/components/media-slideshow";
 import heroVideo from "@/assets/b.mp4.asset.json";
 import sunset from "@/assets/A.jpg.asset.json";
 import balcony from "@/assets/aa.jpg.asset.json";
 import rainbow from "@/assets/aaa.jpg.asset.json";
 import community from "@/assets/w.jpg.asset.json";
-import communityNight from "@/assets/r.jpg.asset.json";
-import communityCourt from "@/assets/t.jpg.asset.json";
 import night from "@/assets/pic8.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
