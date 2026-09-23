@@ -1,0 +1,15 @@
+.gradient-waves-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.gradient-waves-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 100%, #10a080 0%, #0050a0 45%, #0a1f3d 90%);
+  opacity: 0.75;
+}
