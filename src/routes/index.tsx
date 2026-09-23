@@ -2,14 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Check, Eye, FilePlus2 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { MobileDock } from "@/components/mobile-dock";
-import { MediaSlideshow } from "@/components/media-slideshow";
 import heroVideo from "@/assets/b.mp4.asset.json";
 import sunset from "@/assets/A.jpg.asset.json";
 import balcony from "@/assets/aa.jpg.asset.json";
 import rainbow from "@/assets/aaa.jpg.asset.json";
 import community from "@/assets/w.jpg.asset.json";
-import communityNight from "@/assets/r.jpg.asset.json";
-import communityCourt from "@/assets/t.jpg.asset.json";
 import night from "@/assets/pic8.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -61,7 +58,7 @@ function Index() {
         <section className="community-band">
           <div className="section-wrap community-grid">
             <div className="community-copy"><p className="eyebrow light">Our community</p><h2>Built for<br />belonging.</h2><p>Study. Connect. Show up for one another. This is residence life, lived together.</p></div>
-            <MediaSlideshow images={[community, communityNight, communityCourt]} alt="Corridor Hills residents together on a sports court" />
+            <figure className="community-media"><img src={community.url} alt="Corridor Hills residents together on a sports court" loading="lazy" /></figure>
           </div>
         </section>
 
