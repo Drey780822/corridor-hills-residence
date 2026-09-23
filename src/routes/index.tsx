@@ -58,7 +58,7 @@ function Index() {
         <section className="community-band">
           <div className="section-wrap community-grid">
             <div className="community-copy"><p className="eyebrow light">Our community</p><h2>Built for<br />belonging.</h2><p>Study. Connect. Show up for one another. This is residence life, lived together.</p></div>
-            <MediaSlideshow images={[community, communityNight, communityCourt]} alt="Corridor Hills residents together on a sports court" />
+            <figure className="community-media"><img src={community.url} alt="Corridor Hills residents together on a sports court" loading="lazy" /></figure>
           </div>
         </section>
 
