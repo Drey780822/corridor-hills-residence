@@ -10,7 +10,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // That path only exists on Lovable hosting, so when running locally we proxy it to the
 // hosted project. Inside Lovable this proxy is skipped (the platform serves it directly).
 const isLovableSandbox = Boolean(process.env["LOVABLE_SANDBOX"]);
-const assetHost = "https://project--40086d5d-8880-4648-b966-5c5ae27f9bdf.lovable.app";
+const assetHost = "https://project--40086d5d-8880-4648-b966-5c5ae27f9bdf-dev.lovable.app";
 
 export default defineConfig({
   tanstackStart: {
