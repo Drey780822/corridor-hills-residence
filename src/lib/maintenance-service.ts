@@ -8,12 +8,14 @@ import type {
   ResidentSession,
   StatusTimelineEvent,
 } from "../types/residence";
+import type { ExtendedMaintenanceRequest } from "../types/operations";
 import { getCategoryMeta } from "./categories-config";
-
-const REQUESTS_STORAGE_KEY = "corridor_hills_maintenance_requests_v1";
-const DRAFT_STORAGE_KEY = "corridor_hills_report_draft_v1";
-const OUTBOX_STORAGE_KEY = "corridor_hills_offline_outbox_v1";
-const REQUEST_CHANGE_EVENT = "ch_maintenance_request_change";
+import {
+  confirmStudentResolution,
+  getExtendedRequests,
+  processNewRequestThroughAssignmentEngine,
+  saveExtendedRequests,
+} from "./operations-service";
 
 // Initial realistic seed requests for demonstration & testing
 const SEED_REQUESTS: MaintenanceRequest[] = [
@@ -199,27 +201,13 @@ const SEED_REQUESTS: MaintenanceRequest[] = [
 ];
 
 function getAllStoredRequests(): MaintenanceRequest[] {
-  if (typeof window === "undefined") return SEED_REQUESTS;
-  try {
-    const raw = localStorage.getItem(REQUESTS_STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(SEED_REQUESTS));
-      return SEED_REQUESTS;
-    }
-    return JSON.parse(raw) as MaintenanceRequest[];
-  } catch (err) {
-    console.error("Failed to load requests from storage:", err);
-    return SEED_REQUESTS;
-  }
+  return getExtendedRequests();
 }
 
 function saveAllStoredRequests(requests: MaintenanceRequest[]): void {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(requests));
-    window.dispatchEvent(new CustomEvent(REQUEST_CHANGE_EVENT));
-  } catch (err) {
-    console.error("Failed to save requests:", err);
+  saveExtendedRequests(requests as ExtendedMaintenanceRequest[]);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("ch_maintenance_request_change"));
   }
 }
 
@@ -320,21 +308,13 @@ export async function submitMaintenanceReport(
       id: `hist-${Date.now()}-1`,
       status: "submitted",
       title: "Report Submitted",
-      description: "We received your report and our residence desk has logged it.",
+      description: "We received your report and our residence operations desk has logged it.",
       timestamp: now,
       actor: `Resident (${session.studentNumber})`,
     },
-    {
-      id: `hist-${Date.now()}-2`,
-      status: "assigned",
-      title: "Technician Assigned",
-      description: `Assigned to ${techName} (${techSpecialty}).`,
-      timestamp: new Date(Date.now() + 1000).toISOString(),
-      actor: "Automated Assignment Engine",
-    },
   ];
 
-  const newRequest: MaintenanceRequest = {
+  const rawRequest: ExtendedMaintenanceRequest = {
     id: refId,
     idempotencyKey: payload.idempotencyKey,
     studentNumber: session.studentNumber,
@@ -346,27 +326,31 @@ export async function submitMaintenanceReport(
     issueType: payload.issueType,
     description: payload.description,
     attachments: newAttachments,
-    status: "assigned",
+    status: "submitted",
     urgency: "standard",
-    assignedTechnician: {
-      name: techName,
-      specialty: techSpecialty,
-      isQueued,
+    operationalPriority: "standard",
+    requiredSkill: "general",
+    sla: {
+      targetHours: 24,
+      dueAt: new Date(Date.now() + 24 * 3600 * 1000).toISOString(),
+      slaStatus: "on_track",
     },
     timestamps: {
       reported_at: now,
-      assigned_at: new Date(Date.now() + 1000).toISOString(),
     },
     history: initialHistory,
   };
 
-  const updated = [newRequest, ...all];
+  // Run through automated deterministic assignment engine
+  const processed = processNewRequestThroughAssignmentEngine(rawRequest);
+
+  const updated = [processed, ...all];
   saveAllStoredRequests(updated);
 
   // Clear any existing draft since it was submitted
   clearOfflineDraft();
 
-  return newRequest;
+  return processed;
 }
 
 /**
@@ -377,44 +361,11 @@ export async function confirmResolution(
   session: ResidentSession,
 ): Promise<MaintenanceRequest> {
   await new Promise((resolve) => setTimeout(resolve, 350));
-
-  const all = getAllStoredRequests();
-  const index = all.findIndex((r) => r.id === requestId);
-  if (index === -1) {
+  const res = confirmStudentResolution(requestId, true);
+  if (!res) {
     throw new Error("Request not found");
   }
-
-  const req = all[index];
-  if (req.unit !== session.unit) {
-    throw new Error("Unauthorized to modify this request");
-  }
-
-  const now = new Date().toISOString();
-  const updatedHistory: StatusTimelineEvent[] = [
-    ...req.history,
-    {
-      id: `hist-${Date.now()}`,
-      status: "verified",
-      title: "Resolution Confirmed",
-      description: "You confirmed that the issue has been successfully resolved.",
-      timestamp: now,
-      actor: `Resident (${session.studentNumber})`,
-    },
-  ];
-
-  const updatedReq: MaintenanceRequest = {
-    ...req,
-    status: "verified",
-    timestamps: {
-      ...req.timestamps,
-      verified_at: now,
-    },
-    history: updatedHistory,
-  };
-
-  all[index] = updatedReq;
-  saveAllStoredRequests(all);
-  return updatedReq;
+  return res;
 }
 
 /**
@@ -426,45 +377,11 @@ export async function reopenRequest(
   session: ResidentSession,
 ): Promise<MaintenanceRequest> {
   await new Promise((resolve) => setTimeout(resolve, 400));
-
-  const all = getAllStoredRequests();
-  const index = all.findIndex((r) => r.id === requestId);
-  if (index === -1) {
+  const res = confirmStudentResolution(requestId, false, reason);
+  if (!res) {
     throw new Error("Request not found");
   }
-
-  const req = all[index];
-  if (req.unit !== session.unit) {
-    throw new Error("Unauthorized to modify this request");
-  }
-
-  const now = new Date().toISOString();
-  const updatedHistory: StatusTimelineEvent[] = [
-    ...req.history,
-    {
-      id: `hist-${Date.now()}`,
-      status: "reopened",
-      title: "Request Reopened",
-      description: `Resident reopened request: "${reason.trim()}"`,
-      timestamp: now,
-      actor: `Resident (${session.studentNumber})`,
-    },
-  ];
-
-  const updatedReq: MaintenanceRequest = {
-    ...req,
-    status: "reopened",
-    reopenReason: reason.trim(),
-    timestamps: {
-      ...req.timestamps,
-      reopened_at: now,
-    },
-    history: updatedHistory,
-  };
-
-  all[index] = updatedReq;
-  saveAllStoredRequests(all);
-  return updatedReq;
+  return res;
 }
 
 /* =========================================================================

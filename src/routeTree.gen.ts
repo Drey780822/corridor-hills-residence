@@ -13,6 +13,23 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as RequestsRouteImport } from './routes/requests'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
+import { Route as AdminAuditRouteImport } from './routes/admin/audit'
+import { Route as AdminConfigurationRouteImport } from './routes/admin/configuration'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminResidentsRouteImport } from './routes/admin/residents'
+import { Route as AdminStaffRouteImport } from './routes/admin/staff'
+import { Route as StaffIndexRouteImport } from './routes/staff/index'
+import { Route as StaffLoginRouteImport } from './routes/staff/login'
+import { Route as StaffProfileRouteImport } from './routes/staff/profile'
+import { Route as StaffQueueRouteImport } from './routes/staff/queue'
+import { Route as StaffWorkRouteImport } from './routes/staff/work'
+import { Route as AdminRequestsIndexRouteImport } from './routes/admin/requests/index'
+import { Route as AdminRequestsRequestIdRouteImport } from './routes/admin/requests/$requestId'
+import { Route as AdminUnitsIndexRouteImport } from './routes/admin/units/index'
+import { Route as AdminUnitsUnitIdRouteImport } from './routes/admin/units/$unitId'
+import { Route as StaffJobJobIdRouteImport } from './routes/staff/job.$jobId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +51,137 @@ const RequestsRoute = RequestsRouteImport.update({
   path: '/requests',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminConfigurationRoute = AdminConfigurationRouteImport.update({
+  id: '/admin/configuration',
+  path: '/admin/configuration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminResidentsRoute = AdminResidentsRouteImport.update({
+  id: '/admin/residents',
+  path: '/admin/residents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminStaffRoute = AdminStaffRouteImport.update({
+  id: '/admin/staff',
+  path: '/admin/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffIndexRoute = StaffIndexRouteImport.update({
+  id: '/staff/',
+  path: '/staff/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffLoginRoute = StaffLoginRouteImport.update({
+  id: '/staff/login',
+  path: '/staff/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffProfileRoute = StaffProfileRouteImport.update({
+  id: '/staff/profile',
+  path: '/staff/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffQueueRoute = StaffQueueRouteImport.update({
+  id: '/staff/queue',
+  path: '/staff/queue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffWorkRoute = StaffWorkRouteImport.update({
+  id: '/staff/work',
+  path: '/staff/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRequestsIndexRoute = AdminRequestsIndexRouteImport.update({
+  id: '/admin/requests/',
+  path: '/admin/requests/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRequestsRequestIdRoute = AdminRequestsRequestIdRouteImport.update({
+  id: '/admin/requests/$requestId',
+  path: '/admin/requests/$requestId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUnitsIndexRoute = AdminUnitsIndexRouteImport.update({
+  id: '/admin/units/',
+  path: '/admin/units/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUnitsUnitIdRoute = AdminUnitsUnitIdRouteImport.update({
+  id: '/admin/units/$unitId',
+  path: '/admin/units/$unitId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffJobJobIdRoute = StaffJobJobIdRouteImport.update({
+  id: '/staff/job/$jobId',
+  path: '/staff/job/$jobId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/report': typeof ReportRoute
   '/requests': typeof RequestsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/configuration': typeof AdminConfigurationRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/residents': typeof AdminResidentsRoute
+  '/admin/staff': typeof AdminStaffRoute
+  '/staff/login': typeof StaffLoginRoute
+  '/staff/profile': typeof StaffProfileRoute
+  '/staff/queue': typeof StaffQueueRoute
+  '/staff/work': typeof StaffWorkRoute
+  '/admin/': typeof AdminIndexRoute
+  '/staff/': typeof StaffIndexRoute
+  '/admin/requests/$requestId': typeof AdminRequestsRequestIdRoute
+  '/admin/units/$unitId': typeof AdminUnitsUnitIdRoute
+  '/staff/job/$jobId': typeof StaffJobJobIdRoute
+  '/admin/requests/': typeof AdminRequestsIndexRoute
+  '/admin/units/': typeof AdminUnitsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/report': typeof ReportRoute
   '/requests': typeof RequestsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/configuration': typeof AdminConfigurationRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/residents': typeof AdminResidentsRoute
+  '/admin/staff': typeof AdminStaffRoute
+  '/staff/login': typeof StaffLoginRoute
+  '/staff/profile': typeof StaffProfileRoute
+  '/staff/queue': typeof StaffQueueRoute
+  '/staff/work': typeof StaffWorkRoute
+  '/admin': typeof AdminIndexRoute
+  '/staff': typeof StaffIndexRoute
+  '/admin/requests/$requestId': typeof AdminRequestsRequestIdRoute
+  '/admin/units/$unitId': typeof AdminUnitsUnitIdRoute
+  '/staff/job/$jobId': typeof StaffJobJobIdRoute
+  '/admin/requests': typeof AdminRequestsIndexRoute
+  '/admin/units': typeof AdminUnitsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +189,94 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/report': typeof ReportRoute
   '/requests': typeof RequestsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/configuration': typeof AdminConfigurationRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/residents': typeof AdminResidentsRoute
+  '/admin/staff': typeof AdminStaffRoute
+  '/staff/login': typeof StaffLoginRoute
+  '/staff/profile': typeof StaffProfileRoute
+  '/staff/queue': typeof StaffQueueRoute
+  '/staff/work': typeof StaffWorkRoute
+  '/admin/': typeof AdminIndexRoute
+  '/staff/': typeof StaffIndexRoute
+  '/admin/requests/$requestId': typeof AdminRequestsRequestIdRoute
+  '/admin/units/$unitId': typeof AdminUnitsUnitIdRoute
+  '/staff/job/$jobId': typeof StaffJobJobIdRoute
+  '/admin/requests/': typeof AdminRequestsIndexRoute
+  '/admin/units/': typeof AdminUnitsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/report' | '/requests'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/report'
+    | '/requests'
+    | '/admin/analytics'
+    | '/admin/audit'
+    | '/admin/configuration'
+    | '/admin/login'
+    | '/admin/residents'
+    | '/admin/staff'
+    | '/staff/login'
+    | '/staff/profile'
+    | '/staff/queue'
+    | '/staff/work'
+    | '/admin/'
+    | '/staff/'
+    | '/admin/requests/$requestId'
+    | '/admin/units/$unitId'
+    | '/staff/job/$jobId'
+    | '/admin/requests/'
+    | '/admin/units/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/report' | '/requests'
-  id: '__root__' | '/' | '/login' | '/report' | '/requests'
+  to:
+    | '/'
+    | '/login'
+    | '/report'
+    | '/requests'
+    | '/admin/analytics'
+    | '/admin/audit'
+    | '/admin/configuration'
+    | '/admin/login'
+    | '/admin/residents'
+    | '/admin/staff'
+    | '/staff/login'
+    | '/staff/profile'
+    | '/staff/queue'
+    | '/staff/work'
+    | '/admin'
+    | '/staff'
+    | '/admin/requests/$requestId'
+    | '/admin/units/$unitId'
+    | '/staff/job/$jobId'
+    | '/admin/requests'
+    | '/admin/units'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/report'
+    | '/requests'
+    | '/admin/analytics'
+    | '/admin/audit'
+    | '/admin/configuration'
+    | '/admin/login'
+    | '/admin/residents'
+    | '/admin/staff'
+    | '/staff/login'
+    | '/staff/profile'
+    | '/staff/queue'
+    | '/staff/work'
+    | '/admin/'
+    | '/staff/'
+    | '/admin/requests/$requestId'
+    | '/admin/units/$unitId'
+    | '/staff/job/$jobId'
+    | '/admin/requests/'
+    | '/admin/units/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +284,23 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ReportRoute: typeof ReportRoute
   RequestsRoute: typeof RequestsRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminConfigurationRoute: typeof AdminConfigurationRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminResidentsRoute: typeof AdminResidentsRoute
+  AdminStaffRoute: typeof AdminStaffRoute
+  StaffLoginRoute: typeof StaffLoginRoute
+  StaffProfileRoute: typeof StaffProfileRoute
+  StaffQueueRoute: typeof StaffQueueRoute
+  StaffWorkRoute: typeof StaffWorkRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  StaffIndexRoute: typeof StaffIndexRoute
+  AdminRequestsRequestIdRoute: typeof AdminRequestsRequestIdRoute
+  AdminUnitsUnitIdRoute: typeof AdminUnitsUnitIdRoute
+  StaffJobJobIdRoute: typeof StaffJobJobIdRoute
+  AdminRequestsIndexRoute: typeof AdminRequestsIndexRoute
+  AdminUnitsIndexRoute: typeof AdminUnitsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +333,125 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/configuration': {
+      id: '/admin/configuration'
+      path: '/admin/configuration'
+      fullPath: '/admin/configuration'
+      preLoaderRoute: typeof AdminConfigurationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/residents': {
+      id: '/admin/residents'
+      path: '/admin/residents'
+      fullPath: '/admin/residents'
+      preLoaderRoute: typeof AdminResidentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/staff': {
+      id: '/admin/staff'
+      path: '/admin/staff'
+      fullPath: '/admin/staff'
+      preLoaderRoute: typeof AdminStaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/': {
+      id: '/staff/'
+      path: '/staff'
+      fullPath: '/staff/'
+      preLoaderRoute: typeof StaffIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/login': {
+      id: '/staff/login'
+      path: '/staff/login'
+      fullPath: '/staff/login'
+      preLoaderRoute: typeof StaffLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/profile': {
+      id: '/staff/profile'
+      path: '/staff/profile'
+      fullPath: '/staff/profile'
+      preLoaderRoute: typeof StaffProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/queue': {
+      id: '/staff/queue'
+      path: '/staff/queue'
+      fullPath: '/staff/queue'
+      preLoaderRoute: typeof StaffQueueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/work': {
+      id: '/staff/work'
+      path: '/staff/work'
+      fullPath: '/staff/work'
+      preLoaderRoute: typeof StaffWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/requests/': {
+      id: '/admin/requests/'
+      path: '/admin/requests'
+      fullPath: '/admin/requests/'
+      preLoaderRoute: typeof AdminRequestsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/requests/$requestId': {
+      id: '/admin/requests/$requestId'
+      path: '/admin/requests/$requestId'
+      fullPath: '/admin/requests/$requestId'
+      preLoaderRoute: typeof AdminRequestsRequestIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/units/': {
+      id: '/admin/units/'
+      path: '/admin/units'
+      fullPath: '/admin/units/'
+      preLoaderRoute: typeof AdminUnitsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/units/$unitId': {
+      id: '/admin/units/$unitId'
+      path: '/admin/units/$unitId'
+      fullPath: '/admin/units/$unitId'
+      preLoaderRoute: typeof AdminUnitsUnitIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/job/$jobId': {
+      id: '/staff/job/$jobId'
+      path: '/staff/job/$jobId'
+      fullPath: '/staff/job/$jobId'
+      preLoaderRoute: typeof StaffJobJobIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +460,23 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ReportRoute: ReportRoute,
   RequestsRoute: RequestsRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminAuditRoute: AdminAuditRoute,
+  AdminConfigurationRoute: AdminConfigurationRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminResidentsRoute: AdminResidentsRoute,
+  AdminStaffRoute: AdminStaffRoute,
+  StaffLoginRoute: StaffLoginRoute,
+  StaffProfileRoute: StaffProfileRoute,
+  StaffQueueRoute: StaffQueueRoute,
+  StaffWorkRoute: StaffWorkRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  StaffIndexRoute: StaffIndexRoute,
+  AdminRequestsRequestIdRoute: AdminRequestsRequestIdRoute,
+  AdminUnitsUnitIdRoute: AdminUnitsUnitIdRoute,
+  StaffJobJobIdRoute: StaffJobJobIdRoute,
+  AdminRequestsIndexRoute: AdminRequestsIndexRoute,
+  AdminUnitsIndexRoute: AdminUnitsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

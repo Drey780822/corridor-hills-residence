@@ -122,8 +122,7 @@ function Index() {
               smoothing={0.1}
               overlayScrim={0.45}
               useWindowScroll
-            >
-            </ScrollExpand>
+            ></ScrollExpand>
           </div>
         </section>
 
