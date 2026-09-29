@@ -48,32 +48,41 @@ function LoginPage() {
   };
 
   return (
-    <div className="site-shell min-h-screen pb-28">
+    <div className="dark student-portal-shell site-shell min-h-screen pb-28 bg-[#061325] text-slate-100 relative overflow-hidden">
+      {/* Ambient background lighting matching Corridor Hills palette */}
+      <div className="portal-bg-decor" aria-hidden="true">
+        <div className="portal-bg-decor-top" />
+        <div className="portal-bg-decor-orb-1" />
+        <div className="portal-bg-decor-orb-2" />
+      </div>
+
       <SiteHeader />
 
-      <main className="section-wrap pt-28 sm:pt-32 max-w-4xl mx-auto px-4 sm:px-6">
+      <main className="section-wrap pt-28 sm:pt-32 max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Top bar */}
         <div className="mb-6 flex items-center justify-between">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Home</span>
+            <span>Residence Home</span>
           </Link>
 
-          <span className="text-xs font-semibold text-muted-foreground">
-            Tshwane University of Technology
+          <span className="rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-teal-300">
+            TUT • Student Portal
           </span>
         </div>
 
         {/* Page Title */}
         <div className="mb-8">
-          <p className="eyebrow">Corridor Hills Residence</p>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#10A080]">
+            Corridor Hills Residence
+          </p>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl">
             {isVerified ? "Resident Profile" : "Student Verification"}
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground max-w-2xl leading-relaxed sm:text-base">
+          <p className="mt-2 text-sm text-slate-300 max-w-2xl leading-relaxed sm:text-base">
             {isVerified
               ? "Your resident identity is verified and active. You can report maintenance issues and track updates without re-entering credentials."
               : "Password-free authentication using your allocated residence unit, room, and official TUT student number."}
@@ -83,23 +92,23 @@ function LoginPage() {
         {/* Verified Profile Card vs Verification Flow */}
         {isVerified && session ? (
           <div className="space-y-6">
-            <div className="overflow-hidden rounded-2xl border border-teal-500/30 bg-card p-6 shadow-xl sm:p-8">
+            <div className="overflow-hidden rounded-2xl border border-teal-500/30 bg-[#0B1E38]/90 backdrop-blur-md p-6 shadow-2xl sm:p-8">
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-teal-500/15 text-teal-600 dark:text-teal-400">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-teal-500/20 text-teal-300 border border-teal-500/30">
                     <Building2 className="h-8 w-8" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="rounded-full bg-teal-500/10 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">
+                      <span className="rounded-full border border-teal-500/40 bg-teal-500/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-teal-300">
                         Verified Resident
                       </span>
-                      <span className="text-xs text-muted-foreground">• Active</span>
+                      <span className="text-xs text-slate-400">• Active</span>
                     </div>
-                    <h2 className="mt-1 text-3xl font-black tracking-tight text-foreground">
+                    <h2 className="mt-1 text-3xl font-black tracking-tight text-white">
                       {session.location}
                     </h2>
-                    <p className="text-sm font-medium text-muted-foreground">
+                    <p className="text-sm font-medium text-slate-300">
                       Corridor Hills Residence • {getBlockDescription(session.block)}
                     </p>
                   </div>
@@ -108,7 +117,7 @@ function LoginPage() {
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 text-xs font-bold text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive active:scale-95"
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 text-xs font-bold text-slate-300 transition-colors hover:bg-rose-500/20 hover:border-rose-500/40 hover:text-rose-300 active:scale-95"
                 >
                   <LogOut className="h-4 w-4" />
                   <span>Switch Resident</span>
@@ -116,30 +125,30 @@ function LoginPage() {
               </div>
 
               {/* Information Grid */}
-              <div className="mt-6 grid grid-cols-2 gap-4 rounded-xl border border-border bg-muted/30 p-4 sm:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 gap-4 rounded-xl border border-white/10 bg-[#061426]/70 p-4 sm:grid-cols-4">
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     Block
                   </span>
-                  <p className="text-base font-bold text-foreground">Block {session.block}</p>
+                  <p className="text-base font-bold text-white">Block {session.block}</p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     Floor
                   </span>
-                  <p className="text-base font-bold text-foreground">Floor {session.floor}</p>
+                  <p className="text-base font-bold text-white">Floor {session.floor}</p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     Room
                   </span>
-                  <p className="text-base font-bold text-foreground">Room {session.room}</p>
+                  <p className="text-base font-bold text-white">Room {session.room}</p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     TUT Student #
                   </span>
-                  <p className="font-mono text-base font-bold text-foreground">
+                  <p className="font-mono text-base font-bold text-white">
                     ••••{session.studentNumber.slice(-4)}
                   </p>
                 </div>
@@ -149,14 +158,14 @@ function LoginPage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   to="/report"
-                  className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 font-bold text-white shadow-md transition-all active:scale-95 hover:bg-teal-700"
+                  className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#10A080] px-6 font-bold text-[#061325] shadow-lg shadow-teal-950/40 transition-all active:scale-95 hover:bg-[#12b38f]"
                 >
                   <Wrench className="h-4 w-4" />
                   <span>Report an Issue</span>
                 </Link>
                 <Link
                   to="/requests"
-                  className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl border border-border bg-background px-6 font-bold text-foreground transition-all active:scale-95 hover:bg-accent"
+                  className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 font-bold text-white transition-all active:scale-95 hover:bg-white/10"
                 >
                   <ClipboardList className="h-4 w-4" />
                   <span>View My Requests</span>
@@ -165,9 +174,9 @@ function LoginPage() {
             </div>
 
             {/* Explanatory security callout */}
-            <div className="rounded-2xl border border-border bg-muted/20 p-5 text-xs text-muted-foreground leading-relaxed">
-              <div className="flex items-center gap-2 font-bold text-foreground">
-                <ShieldCheck className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+            <div className="rounded-2xl border border-white/10 bg-[#0B1E38]/60 backdrop-blur-sm p-5 text-xs text-slate-300 leading-relaxed">
+              <div className="flex items-center gap-2 font-bold text-white">
+                <ShieldCheck className="h-4 w-4 text-teal-400" />
                 <span>Residence Operational Model</span>
               </div>
               <p className="mt-1">
@@ -179,16 +188,16 @@ function LoginPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="rounded-2xl border border-border bg-muted/20 p-5 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2 font-bold text-foreground">
-                <UserCheck className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+            <div className="rounded-2xl border border-white/10 bg-[#0B1E38]/70 backdrop-blur-sm p-5 text-sm text-slate-300">
+              <div className="flex items-center gap-2 font-bold text-white">
+                <UserCheck className="h-4 w-4 text-teal-400" />
                 <span>How Verification Works</span>
               </div>
               <p className="mt-1 leading-relaxed">
-                Enter your Corridor Hills unit (e.g. <strong>F301</strong>), choose your allocated
-                bedroom (<strong>A, B, or C</strong>), and input your{" "}
-                <strong>TUT student number</strong>. The system will match your details against
-                official university residence records.
+                Enter your Corridor Hills unit (e.g. <strong className="text-white">F301</strong>),
+                choose your allocated bedroom (<strong className="text-white">A, B, or C</strong>),
+                and input your <strong className="text-white">TUT student number</strong>. The
+                system will match your details against official university residence records.
               </p>
             </div>
 

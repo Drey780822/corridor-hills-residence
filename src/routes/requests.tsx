@@ -117,24 +117,31 @@ function RequestsPage() {
   });
 
   return (
-    <div className="site-shell min-h-screen pb-28">
+    <div className="dark student-portal-shell site-shell min-h-screen pb-28 bg-[#061325] text-slate-100 relative overflow-hidden">
+      {/* Ambient background lighting matching Corridor Hills palette */}
+      <div className="portal-bg-decor" aria-hidden="true">
+        <div className="portal-bg-decor-top" />
+        <div className="portal-bg-decor-orb-1" />
+        <div className="portal-bg-decor-orb-2" />
+      </div>
+
       <SiteHeader />
 
-      <main className="section-wrap pt-28 sm:pt-32 max-w-4xl mx-auto px-4 sm:px-6">
+      <main className="section-wrap pt-28 sm:pt-32 max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Top bar */}
         <div className="mb-6 flex items-center justify-between">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Home</span>
+            <span>Residence Home</span>
           </Link>
 
           {isVerified && (
             <Link
               to="/report"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-teal-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-teal-700 active:scale-95 transition-all"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#10A080] px-4 py-2 text-xs font-bold text-[#061325] shadow-lg shadow-teal-900/30 hover:bg-[#12b38f] active:scale-95 transition-all"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Report Issue</span>
@@ -144,11 +151,20 @@ function RequestsPage() {
 
         {/* Page Title */}
         <div className="mb-6">
-          <p className="eyebrow">Residence Maintenance</p>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+          <div className="flex items-center gap-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#10A080]">
+              Residence Maintenance • Live Tracking
+            </p>
+            {isVerified && session && (
+              <span className="rounded-full border border-teal-500/40 bg-teal-500/10 px-2.5 py-0.5 text-[10px] font-bold text-teal-300">
+                Unit {session.location}
+              </span>
+            )}
+          </div>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl">
             My Requests
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground max-w-2xl leading-relaxed sm:text-base">
+          <p className="mt-2 text-sm text-slate-300 max-w-2xl leading-relaxed sm:text-base">
             Track live progress, technician assignments, and confirm resolutions for maintenance
             reports at Corridor Hills.
           </p>
@@ -157,9 +173,9 @@ function RequestsPage() {
         {/* NOT VERIFIED STATE */}
         {!isVerified || !session ? (
           <div className="space-y-6">
-            <div className="rounded-2xl border border-border bg-muted/20 p-5 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2 font-bold text-foreground">
-                <ClipboardList className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+            <div className="rounded-2xl border border-white/10 bg-[#0B1E38]/70 backdrop-blur-sm p-5 text-sm text-slate-300">
+              <div className="flex items-center gap-2 font-bold text-white">
+                <ClipboardList className="h-4 w-4 text-teal-400" />
                 <span>Verification Required to Access Requests</span>
               </div>
               <p className="mt-1 leading-relaxed">
@@ -175,18 +191,24 @@ function RequestsPage() {
             {/* Filter Tabs & Search Bar */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               {/* Tabs */}
-              <div className="flex rounded-xl bg-muted/50 p-1 border border-border">
+              <div className="flex rounded-xl bg-[#0B1E38]/90 p-1 border border-white/10 backdrop-blur-md">
                 <button
                   type="button"
                   onClick={() => setActiveTab("all")}
                   className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
                     activeTab === "all"
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-[#10A080] text-[#061325] shadow-sm font-extrabold"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   <span>All</span>
-                  <span className="rounded-full bg-muted px-1.5 py-0.2 text-[10px]">
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                      activeTab === "all"
+                        ? "bg-[#061325]/20 text-[#061325]"
+                        : "bg-white/10 text-slate-300"
+                    }`}
+                  >
                     {requests.length}
                   </span>
                 </button>
@@ -196,12 +218,18 @@ function RequestsPage() {
                   onClick={() => setActiveTab("active")}
                   className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
                     activeTab === "active"
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-[#10A080] text-[#061325] shadow-sm font-extrabold"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   <span>Active</span>
-                  <span className="rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 px-1.5 py-0.2 text-[10px]">
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                      activeTab === "active"
+                        ? "bg-[#061325]/20 text-[#061325]"
+                        : "bg-amber-500/20 text-amber-300"
+                    }`}
+                  >
                     {activeRequests.length}
                   </span>
                 </button>
@@ -211,12 +239,18 @@ function RequestsPage() {
                   onClick={() => setActiveTab("resolved")}
                   className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
                     activeTab === "resolved"
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-[#10A080] text-[#061325] shadow-sm font-extrabold"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   <span>Resolved</span>
-                  <span className="rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.2 text-[10px]">
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                      activeTab === "resolved"
+                        ? "bg-[#061325]/20 text-[#061325]"
+                        : "bg-emerald-500/20 text-emerald-300"
+                    }`}
+                  >
                     {resolvedRequests.length}
                   </span>
                 </button>
@@ -224,13 +258,13 @@ function RequestsPage() {
 
               {/* Search */}
               <div className="relative flex-1 sm:max-w-xs">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search reference or issue..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="h-9 w-full rounded-xl border border-input bg-background pl-9 pr-3 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500/20"
+                  className="h-10 w-full rounded-xl border border-white/15 bg-[#0B1E38]/90 pl-9 pr-3 text-xs text-white placeholder:text-slate-400 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400/30 backdrop-blur-md"
                 />
               </div>
             </div>
@@ -238,20 +272,20 @@ function RequestsPage() {
             {/* Requests List */}
             {loading ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
-                <p className="mt-3 text-xs font-semibold text-muted-foreground">
+                <Loader2 className="h-8 w-8 animate-spin text-teal-400" />
+                <p className="mt-3 text-xs font-semibold text-slate-300">
                   Loading your maintenance requests...
                 </p>
               </div>
             ) : filteredRequests.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border p-10 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                  <ClipboardList className="h-6 w-6" />
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-[#0B1E38]/40 p-12 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-500/10 text-teal-400 border border-teal-500/20">
+                  <ClipboardList className="h-7 w-7" />
                 </div>
-                <h3 className="mt-4 text-base font-bold text-foreground">
+                <h3 className="mt-4 text-base font-bold text-white">
                   {searchQuery ? "No matching requests found" : "No requests in this category"}
                 </h3>
-                <p className="mt-1 max-w-sm text-xs text-muted-foreground">
+                <p className="mt-1 max-w-sm text-xs text-slate-300 leading-relaxed">
                   {searchQuery
                     ? "Try adjusting your search terms or filter selection."
                     : "When you or your unit report an issue, it will appear here with live tracking updates."}
@@ -259,7 +293,7 @@ function RequestsPage() {
                 <div className="mt-5">
                   <Link
                     to="/report"
-                    className="inline-flex h-10 items-center gap-2 rounded-xl bg-teal-600 px-5 text-xs font-bold text-white shadow-sm hover:bg-teal-700 active:scale-95"
+                    className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#10A080] px-5 text-xs font-bold text-[#061325] shadow-lg shadow-teal-900/30 hover:bg-[#12b38f] active:scale-95 transition-all"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     <span>Report a maintenance issue</span>

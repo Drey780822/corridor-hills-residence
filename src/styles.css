@@ -1045,6 +1045,70 @@ footer {
   margin-bottom: 4rem;
 }
 
+/* Student Portal Pages (Requests & Login) */
+.student-portal-shell {
+  min-height: 100vh;
+  background-color: #061325;
+  color: oklch(0.984 0.003 247.858);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.student-portal-shell .site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  color: #ffffff;
+}
+
+.portal-bg-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.portal-bg-decor-top {
+  position: absolute;
+  top: -10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 550px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(0, 80, 160, 0.35) 0%,
+    rgba(16, 160, 128, 0.12) 50%,
+    transparent 75%
+  );
+  filter: blur(60px);
+}
+
+.portal-bg-decor-orb-1 {
+  position: absolute;
+  top: 25%;
+  right: -8rem;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  background: rgba(0, 80, 160, 0.16);
+  filter: blur(80px);
+}
+
+.portal-bg-decor-orb-2 {
+  position: absolute;
+  bottom: 20%;
+  left: -8rem;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  background: rgba(16, 160, 128, 0.12);
+  filter: blur(80px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
