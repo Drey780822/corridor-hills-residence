@@ -32,6 +32,4 @@ dist-ssr
 *.sw?
 
 # Large video assets
-public/videos/*.mp4
 
-videos/*.mp4

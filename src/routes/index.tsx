@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Check, Eye, FilePlus2 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -58,14 +59,33 @@ const GALLERY_ITEMS = [
 ];
 
 function Index() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
+
   return (
     <div className="site-shell">
       <SiteHeader />
       <main>
         {/* Section 1: Hero */}
         <section className="hero" aria-labelledby="hero-title">
-          <video autoPlay muted loop playsInline preload="metadata" poster="/images/A.jpg">
-            <source src="/videos/video22.mp4" type="video/mp4" />
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            src="/videos/video22.mp4?v=20260929"
+            poster="/images/A.jpg"
+          >
+            <source src="/videos/video22.mp4?v=20260929" type="video/mp4" />
           </video>
           <div className="hero-shade" />
           <div className="hero-content">
