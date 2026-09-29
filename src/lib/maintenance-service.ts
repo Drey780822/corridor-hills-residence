@@ -17,6 +17,10 @@ import {
   saveExtendedRequests,
 } from "./operations-service";
 
+const DRAFT_STORAGE_KEY = "corridor_hills_report_draft_v1";
+const OUTBOX_STORAGE_KEY = "corridor_hills_offline_outbox_v1";
+export const REQUEST_CHANGE_EVENT = "ch_maintenance_request_change";
+
 // Initial realistic seed requests for demonstration & testing
 const SEED_REQUESTS: MaintenanceRequest[] = [
   {
@@ -461,9 +465,11 @@ export async function syncOutboxQueue(): Promise<number> {
 export function subscribeToRequestChanges(callback: () => void): () => void {
   if (typeof window === "undefined") return () => {};
   window.addEventListener(REQUEST_CHANGE_EVENT, callback);
+  window.addEventListener("ch_operations_data_change", callback);
   window.addEventListener("storage", callback);
   return () => {
     window.removeEventListener(REQUEST_CHANGE_EVENT, callback);
+    window.removeEventListener("ch_operations_data_change", callback);
     window.removeEventListener("storage", callback);
   };
 }
