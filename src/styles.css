@@ -1048,7 +1048,7 @@ footer {
 /* Student Portal Pages (Requests & Login) */
 .student-portal-shell {
   min-height: 100vh;
-  background-color: #061325;
+  background-color: transparent;
   color: oklch(0.984 0.003 247.858);
   position: relative;
   overflow-x: hidden;
@@ -1061,6 +1061,40 @@ footer {
   right: 0;
   z-index: 30;
   color: #ffffff;
+}
+
+/* Glassmorphic architectural card enhancements */
+.student-portal-shell .bg-card {
+  background-color: rgba(11, 30, 56, 0.88) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+.student-portal-shell .bg-background {
+  background-color: rgba(6, 20, 38, 0.75) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.student-portal-shell .bg-muted\/40,
+.student-portal-shell .bg-muted\/30,
+.student-portal-shell .bg-muted\/20 {
+  background-color: rgba(6, 20, 38, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.student-portal-shell .border-border {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.student-portal-shell .text-foreground {
+  color: #ffffff !important;
+}
+
+.student-portal-shell .text-muted-foreground {
+  color: #94a3b8 !important;
 }
 
 .portal-bg-decor {
