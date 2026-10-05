@@ -1,1266 +1,260 @@
+<div align="center">
+  <img src="./public/images/Corridor_Hill_logo.png" alt="Corridor Hills Residence Logo" width="100" />
+
 # Corridor Hills Residence
 
-You are designing the frontend MVP for a production-quality Progressive Web App (PWA) for Corridor Hills Residence at Tshwane University of Technology (TUT).
+### Digital Maintenance & Residence Operations Platform
+
+**Tshwane University of Technology (TUT) — eMalahleni Campus**
+
+[![Live Deployment](https://img.shields.io/badge/Live_Deployment-Vercel-0A1F3D?style=for-the-badge&logo=vercel&logoColor=white)](https://corridor-hills-residence.vercel.app)
+[![Platform Status](https://img.shields.io/badge/Status-Production_Ready-10A080?style=for-the-badge)](https://corridor-hills-residence.vercel.app)
+[![PWA Enabled](https://img.shields.io/badge/PWA-Offline_First-0050A0?style=for-the-badge)](https://corridor-hills-residence.vercel.app)
+[![Documentation](https://img.shields.io/badge/Guide-Stakeholder_PDF-rose?style=for-the-badge)](./Corridor_Hills_Residence_Stakeholder_Operations_Guide.pdf)
+
+  <p align="center">
+    <strong>A high-integrity, closed-loop digital ecosystem connecting Student Residents, On-Site Maintenance Technicians, and University Administration into one seamless operations platform.</strong>
+  </p>
+
+[🌐 Live Platform](https://corridor-hills-residence.vercel.app) •
+[📄 Stakeholder Guide (PDF)](./Corridor_Hills_Residence_Stakeholder_Operations_Guide.pdf) •
+[🛠️ Maintenance Portal](https://corridor-hills-residence.vercel.app/staff/login) •
+[📊 Operations Control Centre](https://corridor-hills-residence.vercel.app/admin/login)
+</div>
+
+---
+
+## 📸 Architectural Scenery & Visual Identity
+
+The platform embeds authentic, high-resolution architectural photography of Corridor Hills Residence as dynamic ambient backdrops with custom cinematic dark scrims (`#061325/85` $\rightarrow$ `#061325/65` $\rightarrow$ `#061325/95`) and TUT institutional lighting accents (`#0050A0` Institutional Blue & `#10A080` Teal).
+
+<table>
+  <tr>
+    <td width="33.33%" align="center">
+      <img src="./images/A.jpg" alt="Evening Glow — Corridor Hills Residence" style="border-radius: 8px; width: 100%; height: auto;" />
+      <br />
+      <strong>🌅 Evening Glow</strong>
+      <br />
+      <sub><em>Golden hour sunset over residence blocks.<br />Featured on the <a href="https://corridor-hills-residence.vercel.app/login">Resident Verification Portal</a>.</em></sub>
+    </td>
+    <td width="33.33%" align="center">
+      <img src="./images/aaa.jpg" alt="After the Rain — Corridor Hills Residence" style="border-radius: 8px; width: 100%; height: auto;" />
+      <br />
+      <strong>🌈 After the Rain</strong>
+      <br />
+      <sub><em>Vibrant rainbow horizon over the campus.<br />Featured on the <a href="https://corridor-hills-residence.vercel.app/report">Fault Reporting Portal</a>.</em></sub>
+    </td>
+    <td width="33.33%" align="center">
+      <img src="./images/pic8.jpg" alt="After Hours — Corridor Hills Residence" style="border-radius: 8px; width: 100%; height: auto;" />
+      <br />
+      <strong>🌙 After Hours</strong>
+      <br />
+      <sub><em>Nocturnal architectural pathway illumination.<br />Featured on <a href="https://corridor-hills-residence.vercel.app/requests">Tracking</a> & <a href="https://corridor-hills-residence.vercel.app/staff">Staff Operations</a>.</em></sub>
+    </td>
+  </tr>
+</table>
+
+> **Interactive Campus Scenery Switcher:** Students can toggle between these three authentic views directly from the platform interface via the floating scenery selector or header button. The platform automatically remembers their preference locally.
+
+---
+
+## 🏛️ Platform Architecture Overview
+
+The platform is strictly segregated into three distinct user domains, each optimized for its exact operational workflow:
+
+```mermaid
+graph TD
+    subgraph StudentLayer ["1. STUDENT RESIDENT EXPERIENCE (PWA)"]
+      S1[Report Fault /report] --> SE[Automated Routing & Dispatch Engine]
+      S2[Track Live Progress /requests] <--> DB[(Operations Storage)]
+      S3[Resident Sign-in /login]
+    end
+
+    subgraph StaffLayer ["2. MAINTENANCE STAFF PORTAL (/staff)"]
+      T1[Roster Access /staff/login] --> T2[Work Queue & Live Timer /staff]
+      T2 --> T3[Job Detail & Proof /staff/job/:id]
+      T3 --> T4[Skill Backlog Claims /staff/queue]
+      T2 <--> OFQ[Offline Action Queue]
+      OFQ <--> DB
+    end
+
+    subgraph AdminLayer ["3. OPERATIONS CONTROL CENTRE (/admin)"]
+      A1[Admin Auth /admin/login] --> A2[Operations Dashboard /admin]
+      A2 --> A3[Request Manager /admin/requests]
+      A2 --> A4[Digital Twin Hierarchy /admin/units]
+      A2 --> A5[Resident Directory & CSV Import /admin/residents]
+      A2 --> A6[Staff Roster & Skills /admin/staff]
+      A2 --> A7[Operations Analytics /admin/analytics]
+      A2 --> A8[Immutable Audit Log /admin/audit]
+      A2 --> A9[SLA Configuration /admin/configuration]
+    end
+
+    SE --> DB
+    T3 --> DB
+    A3 --> DB
+```
+
+---
+
+## 🚀 The Three Specialized Portals
+
+### 1. 🪪 Student Resident Experience (`/`, `/report`, `/requests`, `/login`)
+
+_Designed around: **"Report → Track → Resolve"**_
+
+- **Password-Free Identity Verification:** Authenticates residents using their allocated Block (A–F), Bedroom (A, B, or C), and official 9-digit TUT student number.
+- **6-Step Fault Reporting Wizard:** Guided reporting with problem area selection, category tagging, specific issue definitions, and photo/video evidence upload.
+- **Offline Draft Protection:** If internet connectivity drops while reporting, draft progress and attachments are saved locally and auto-submitted when reconnected.
+- **Real-Time Request Tracker:** Live technician assignment, status timeline, and resident resolution confirmation (_"Yes, it's fixed"_ or _"No, still broken"_).
+- **Interactive Scenery Control:** Allows students to switch their ambient background view between _Evening Glow_, _After the Rain_, and _After Hours_.
 
-IMPORTANT:
+### 2. 🛠️ Maintenance Staff Portal (`/staff/*`)
 
-This is NOT a generic AI-generated student management system.
+_Designed around: **"Receive → Prioritise → Work → Resolve"**_
 
-This must feel like a real product designed by a high-end digital product studio for an actual university residence.
+- **Tactile, Outdoor-Contrast UI:** Engineered for technicians on-site with large touch targets ($\ge 48\text{px}$) and outdoor sunlight readability.
+- **1-Tap Technician Roster Access:** Instant technician switching on login without typing passwords.
+- **Active Job Card & On-Site Timer:** Real-time labor timer starts when work begins to measure actual repair time accurately.
+- **Structured Pauses & Mandatory Justifications:** Allows pausing active jobs for _Parts Needed_, _Access Denied_, or _Specialist Required_, automatically updating the ticket state.
+- **Unassigned Skills Backlog (`/staff/queue`):** Technicians can view and claim unassigned tickets filtered by their certified trade skills (Electrical, Plumbing, Carpentry, HVAC, General).
+- **Offline Action Queue:** Technician actions (_Accept_, _Start_, _Pause_, _Resolve_) are queued locally with UUID idempotency keys if operating in basements or areas with poor reception.
 
-The first phase is ONLY the STUDENT / RESIDENT EXPERIENCE.
+### 3. 📊 Administration Operations Control Centre (`/admin/*`)
 
-DO NOT design admin pages.
+_Designed around: **"Monitor → Control → Analyse → Improve"**_
 
-DO NOT design maintenance staff pages.
+- **Operations Overview Dashboard (`/admin`):** 6 live KPI cards, SLA Watch Radar, real-time technician fleet status, and live audit feed.
+- **Request Manager (`/admin/requests`):** Filter by status, urgency, category, or block with reassignment controls requiring mandatory audit justification.
+- **Digital Twin Unit Mapping (`/admin/units`):** Hierarchical view of Blocks A–F, 4 floors, 144 units, and maintenance health scores.
+- **Resident Directory (`/admin/residents`):** Search resident allocations and export/import student rosters via CSV.
+- **Staff Roster & Skills Matrix (`/admin/staff`):** Manage technician shift statuses (_Available_, _Busy_, _On Break_, _Off Duty_) and certified trade skill sets.
+- **Operations Analytics (`/admin/analytics`):** Mean Time to Resolve (MTTR), category distributions, repeat fault heuristic detection, and SLA breach analysis.
+- **Immutable Audit Log (`/admin/audit`):** Forensic traceable log of every operational event, status update, dispatch, and override.
 
-DO NOT expose administrative functionality through the student landing page.
+---
 
-DO NOT create generic dashboards before the landing experience is established.
+## 🔑 Demo Access & Testing Credentials
 
-We will build the administrative and maintenance experiences separately later.
+Stakeholders and evaluators can test all three interfaces immediately using pre-configured demo credentials:
 
-==================================================
+### 👤 Student Resident Portal ([Test Here](https://corridor-hills-residence.vercel.app/report))
 
-PRODUCT CONTEXT
+| Field                 | Value                                                                              | Notes                                      |
+| :-------------------- | :--------------------------------------------------------------------------------- | :----------------------------------------- |
+| **Residence Unit**    | `F301` _(or A101, E204)_                                                           | Block F (Male Residence), Floor 3, Unit 01 |
+| **Allocated Bedroom** | `Room C` _(or A, B)_                                                               | 2 residents per room                       |
+| **TUT Student #**     | `220123456`                                                                        | 9-digit official student number            |
+| **1-Tap Shortcut**    | Click **"Use sample resident (F301C)"** on the login screen to autofill instantly. |
 
-==================================================
+### 🔧 Maintenance Staff Roster ([Login Here](https://corridor-hills-residence.vercel.app/staff/login))
 
-The product is a digital maintenance reporting and residence support platform for Corridor Hills Residence.
+| Staff ID        | Technician Name   | Specialty / Certified Skills                | Shift Status |
+| :-------------- | :---------------- | :------------------------------------------ | :----------- |
+| **`CH-ST-001`** | **Sipho Mhlongo** | Electrical Specialist & General Maintenance | Available    |
+| **`CH-ST-002`** | **David Khumalo** | Plumbing Specialist & Water Reticulation    | Busy         |
+| **`CH-ST-003`** | **Thabo Ndlovu**  | Carpentry, Doors & Access Control           | Available    |
+| **`CH-ST-004`** | **Nomsa Zulu**    | Senior Facilities Specialist (HVAC & Power) | On Break     |
 
-Students will eventually be able to:
+### 🛡️ Administration Portal ([Login Here](https://corridor-hills-residence.vercel.app/admin/login))
 
-- Report maintenance issues
+| Admin ID         | Name                | Role Title                     | Permissions Scope                                      |
+| :--------------- | :------------------ | :----------------------------- | :----------------------------------------------------- |
+| **`CH-ADM-001`** | **Lerato Molefe**   | Residence Operations Lead      | **SUPER-ADMIN**: Reassign, Staff, Units, Audit, Config |
+| **`CH-ADM-002`** | **Katlego Dlamini** | Facilities Dispatch Supervisor | **DISPATCH**: Dispatch, Reassign, SLA Watch, Reports   |
 
-- Select where an issue is located
+---
 
-- Select an issue category
+## ⚡ 5-Minute End-to-End Closed-Loop Test Sequence
 
-- Describe the problem
+Test how the entire platform operates across user roles in real time:
 
-- Upload photos/videos
+1. **Report Fault as Student (1 min):**
+   - Open [`/report`](https://corridor-hills-residence.vercel.app/report), click **"Use sample resident (F301C)"**.
+   - Select **Electrical** $\rightarrow$ **Power Socket Fault** $\rightarrow$ enter a short description $\rightarrow$ click **"Submit Report"**.
+   - Note the generated ticket reference (e.g. `REQ-F301-XXXX`). The automated engine assigns it to the on-duty electrical technician.
 
-- Indicate urgency
+2. **Execute as Technician (2 mins):**
+   - Open [`/staff/login`](https://corridor-hills-residence.vercel.app/staff/login) in a new tab and tap **Sipho Mhlongo (`CH-ST-001`)**.
+   - In the **Current Job** card, click **"Accept Work Order"**, then click **"Start Work"** (watch the live timer activate).
+   - Click **"Complete Work"**, enter a resolution summary, and submit.
 
-- Track maintenance requests
+3. **Verify as Student (1 min):**
+   - Return to [`/requests`](https://corridor-hills-residence.vercel.app/requests) and click on your ticket.
+   - It now shows **"Resolved"**. Click **"Yes, it's fixed"** to close the ticket or **"No, still broken"** to test reopening escalation.
 
-- Receive updates
+4. **Review as Administrator (1 min):**
+   - Open [`/admin/login`](https://corridor-hills-residence.vercel.app/admin/login) and tap **Lerato Molefe (`CH-ADM-001`)**.
+   - Check the **Audit Log** ([`/admin/audit`](https://corridor-hills-residence.vercel.app/admin/audit)) to view the immutable event trail.
+   - Check **Digital Twin Units** ([`/admin/units`](https://corridor-hills-residence.vercel.app/admin/units)) to see the updated health score of Unit F301.
 
-- View request history
+---
 
-- Confirm whether an issue was resolved
+## 💻 Tech Stack & Engineering Standards
 
-- Reopen an issue if necessary
+- **Core Framework:** React 19, TypeScript, TanStack Router, TanStack Start (SSR & Serverless Edge)
+- **Styling & Design System:** Tailwind CSS, CSS Variables, Glassmorphism, Strict Manrope Typography
+- **Motion & Interactions:** Framer Motion, GSAP, WebGL OGL Canvas (Gradient Waves), React Bits ScrollExpand
+- **Icons & UI Primitives:** Lucide React, Radix UI primitives, Sonner Toast Notifications
+- **Resilience:** Service Worker PWA, IndexedDB/LocalStorage Offline Action Queue, Idempotency Keys
+- **Quality Gates:** 0 ESLint errors, 0 build errors, automated 9/9 unit operations test suite
 
-However, this phase is primarily about designing the STUDENT-FACING EXPERIENCE and establishing the visual identity.
+---
 
-The first thing a student should experience is:
+## 🛠️ Local Development Setup
 
-"THIS IS CORRIDOR HILLS."
+### Prerequisites
 
-Not:
+- Node.js (v18.0.0 or higher)
+- npm (v9.0.0 or higher)
 
-"THIS IS A MAINTENANCE MANAGEMENT SYSTEM."
-
-The platform should communicate:
-
-- Residence life
-
-- Community
-
-- Energy
-
-- Safety
-
-- Belonging
-
-- Modern student living
-
-- Pride
-
-- Convenience
-
-- Responsiveness
-
-- Digital innovation
-
-The maintenance functionality should feel like a natural service inside the residence experience.
-
-==================================================
-
-BRAND
-
-==================================================
-
-Use the attached official Corridor Hills Residence logo as the primary brand reference.
-
-The logo is provided in the project assets.
-
-Use the logo carefully.
-
-Do NOT redesign or distort the logo.
-
-Create:
-
-- Proper favicon
-
-- App icon treatment
-
-- Browser metadata
-
-- Mobile PWA icon treatment
-
-- Brand lockup
-
-- Appropriate logo spacing
-
-The visual system MUST be derived from the actual Corridor Hills logo.
-
-The logo contains a strong combination of:
-
-- Deep navy
-
-- Blue
-
-- Teal/green
-
-Use the actual uploaded logo to derive the colour system rather than randomly selecting colours.
-
-Establish:
-
-- Primary colour
-
-- Secondary colour
-
-- Accent colour
-
-- Surface colours
-
-- Background colours
-
-- Text colours
-
-- Muted text
-
-- Borders
-
-- Interactive states
-
-Maintain strong contrast and accessibility.
-
-Do NOT overuse the accent colours.
-
-The brand should feel:
-
-premium,
-
-architectural,
-
-modern,
-
-institutional,
-
-energetic,
-
-and youthful.
-
-==================================================
-
-TYPOGRAPHY
-
-==================================================
-
-Use MANROPE as the primary typeface throughout the entire application.
-
-Do not use Inter.
-
-Do not use Roboto.
-
-Do not use Poppins.
-
-Do not mix several unrelated fonts.
-
-Manrope should be used consistently across:
-
-- Hero typography
-
-- Navigation
-
-- Buttons
-
-- Body copy
-
-- Cards
-
-- Labels
-
-- Forms
-
-- Status indicators
-
-- Headings
-
-Typography is one of the most important parts of this design.
-
-Use a deliberate typographic scale.
-
-Create clear hierarchy between:
-
-Display
-
-H1
-
-H2
-
-H3
-
-Body
-
-Small
-
-Caption
-
-Metadata
-
-Use:
-
-- Strong but elegant display typography
-
-- Comfortable body line-height
-
-- Tight heading line-height
-
-- Proper letter spacing
-
-- Consistent font weights
-
-- Proper text width constraints
-
-Do NOT make everything bold.
-
-Do NOT make everything huge.
-
-The typography should feel editorial and premium.
-
-==================================================
-
-DESIGN PHILOSOPHY
-
-==================================================
-
-The website should feel like:
-
-Apple-level attention to spacing
-
--
-
-modern university branding
-
--
-
-premium hospitality/residence marketing
-
--
-
-high-end SaaS interaction design.
-
-Think:
-
-"beautiful residence website meets premium digital product."
-
-NOT:
-
-"student CRUD dashboard."
-
-Whitespace is extremely important.
-
-Use generous spacing.
-
-Create a consistent spacing system.
-
-Avoid:
-
-- cramped cards
-
-- excessive borders
-
-- excessive shadows
-
-- random rounded rectangles
-
-- excessive gradients
-
-- giant empty sections without purpose
-
-- generic SaaS templates
-
-- dashboard-style landing pages
-
-Every visual element should have a reason.
-
-==================================================
-
-LANDING PAGE
-
-==================================================
-
-Build a highly polished student landing page.
-
-The landing page should immediately communicate:
-
-CORRIDOR HILLS
-
-before communicating:
-
-maintenance system.
-
-The landing page should use the actual photos and videos I will attach to this project.
-
-DO NOT replace the uploaded media with stock imagery.
-
-DO NOT use random Unsplash/Pexels imagery if project media exists.
-
-The uploaded Corridor Hills videos and images are the source material.
-
-The goal is to visually show students:
-
-"This is our residence."
-
-"This is where we live."
-
-"This is our community."
-
-"This is Corridor Hills."
-
-==================================================
-
-HERO SECTION
-
-==================================================
-
-Create an immersive hero section.
-
-The hero should use the provided Corridor Hills video/media in a sophisticated way.
-
-Potential treatment:
-
-Large cinematic video background or edge-to-edge media composition.
-
-Use:
-
-- subtle dark overlay where necessary for readability
-
-- controlled typography
-
-- carefully positioned logo
-
-- restrained motion
-
-- cinematic cropping
-
-- responsive video behavior
-
-The hero should not feel like a YouTube embed.
-
-It should feel like a premium editorial experience.
-
-Hero content should be minimal.
-
-Example direction:
-
-CORRIDOR HILLS
-
-"Residence life, connected."
-
-or another similarly short, confident message.
-
-Do NOT overload the hero with paragraphs.
-
-Primary CTA:
-
-"Report a Maintenance Issue"
-
-Secondary CTA:
-
-"Explore Corridor Hills"
-
-The CTA should feel like part of the visual composition rather than generic SaaS buttons.
-
-The primary action must remain obvious.
-
-==================================================
-
-MOTION TYPOGRAPHY
-
-==================================================
-
-Motion is a major part of this experience.
-
-Use motion typography carefully.
-
-Examples:
-
-- Text reveals
-
-- Word-by-word or line-by-line entrance
-
-- Masked text reveals
-
-- Subtle vertical translation
-
-- Opacity transitions
-
-- Image/text synchronization
-
-- Scroll-triggered typography
-
-- Section heading reveals
-
-- Number/stat animations where appropriate
-
-Do NOT animate every element.
-
-Animation must create hierarchy.
-
-Avoid:
-
-- excessive bouncing
-
-- spinning
-
-- random floating objects
-
-- cheesy animations
-
-- generic Framer Motion presets everywhere
-
-Motion should feel intentional and editorial.
-
-Think:
-
-high-end product launch website.
-
-==================================================
-
-CORRIDOR HILLS STORY SECTION
-
-==================================================
-
-Create a section that visually introduces the residence.
-
-Use the provided images.
-
-This should feel like a visual story rather than a traditional card grid.
-
-Potential structure:
-
-Large image
-
--
-
-short editorial statement
-
--
-
-supporting image
-
--
-
-small piece of text
-
--
-
-horizontal/vertical movement
-
-Example narrative:
-
-"More than a room."
-
-"Your people. Your space. Your residence."
-
-Again:
-
-DO NOT blindly copy these words.
-
-Create the actual visual experience first.
-
-The purpose is to establish emotional connection.
-
-==================================================
-
-MEDIA / GALLERY EXPERIENCE
-
-==================================================
-
-Use the uploaded Corridor Hills photos and videos.
-
-Create an immersive media section.
-
-Do NOT simply create:
-
-[image]
-
-[image]
-
-[image]
-
-[image]
-
-Instead explore:
-
-- Horizontal image rails
-
-- Large editorial images
-
-- Asymmetric layouts
-
-- Full-width media
-
-- Scroll-based reveals
-
-- Image scale transitions
-
-- Video moments
-
-- Layered compositions
-
-The media should feel alive.
-
-On mobile, convert the experience intelligently rather than simply shrinking desktop layouts.
-
-==================================================
-
-MAINTENANCE INTRODUCTION
-
-==================================================
-
-After establishing the identity of Corridor Hills, introduce the actual product.
-
-Transition from:
-
-"Life at Corridor Hills"
-
-to:
-
-"Something not working?"
-
-Then introduce the maintenance experience.
-
-The section should communicate that students can:
-
-REPORT
-
-TRACK
-
-RESOLVE
-
-maintenance issues easily.
-
-Use simple visual storytelling.
-
-For example:
-
-01
-
-Report
-
-02
-
-Track
-
-03
-
-Resolved
-
-Do not make this look like a generic SaaS feature section.
-
-Use visual transitions between steps.
-
-Potentially show a realistic maintenance request UI mockup.
-
-==================================================
-
-REPORT AN ISSUE CTA
-
-==================================================
-
-Create a strong call-to-action section.
-
-Something like:
-
-"See something that needs fixing?"
-
-"Tell us. We'll take it from there."
-
-Primary CTA:
-
-REPORT AN ISSUE
-
-This should be one of the strongest actions on the website.
-
-However, maintain the premium visual design.
-
-Do not make the entire page look like an emergency maintenance website.
-
-==================================================
-
-STUDENT AUTHENTICATION ENTRY
-
-==================================================
-
-Provide a clean student entry point.
-
-Possible actions:
-
-"Student Login"
-
-"Report an Issue"
-
-"Track My Request"
-
-For this MVP, the buttons can lead to placeholder routes/screens if backend authentication is not implemented yet.
-
-Do not create fake backend behaviour.
-
-Clearly structure the frontend so authentication can be connected later.
-
-==================================================
-
-STUDENT-ONLY INFORMATION ARCHITECTURE
-
-==================================================
-
-This application has multiple user roles, but this phase is STUDENT ONLY.
-
-Student-facing routes should conceptually be:
-
-/
-
-/login
-
-/activate
-
-/report
-
-/requests
-
-/requests/:id
-
-/profile
-
-Do NOT expose:
-
-/admin
-
-/staff
-
-/maintenance
-
-/admin-dashboard
-
-/staff-dashboard
-
-Do not put admin or maintenance navigation in the student UI.
-
-Later we will build separate experiences for those roles.
-
-The architecture should allow those experiences to exist independently.
-
-==================================================
-
-NAVIGATION
-
-==================================================
-
-Desktop navigation should be minimal.
-
-Potential structure:
-
-Corridor Hills logo
-
-Home
-
-Report an Issue
-
-My Requests
-
-[Student Login / Profile]
-
-Do not create 10 navigation items.
-
-On mobile:
-
-Use a polished mobile navigation system.
-
-Potentially:
-
-Home
-
-Report
-
-Requests
-
-Profile
-
-The navigation must feel like a real mobile product.
-
-==================================================
-
-PWA REQUIREMENTS
-
-==================================================
-
-This must be designed as a Progressive Web App.
-
-The experience must feel mobile-first.
-
-Not:
-
-"desktop website squeezed onto a phone."
-
-Design mobile first.
-
-Then expand elegantly to tablet and desktop.
-
-Requirements:
-
-- Responsive layout
-
-- Installable PWA structure
-
-- App manifest
-
-- Proper favicon
-
-- App icons
-
-- Mobile viewport
-
-- Safe-area support
-
-- Touch-friendly controls
-
-- Appropriate tap targets
-
-- Responsive media
-
-- Responsive typography
-
-- Mobile navigation
-
-- Offline-ready architecture where practical
-
-- Loading states
-
-- Skeleton states where appropriate
-
-- Error states
-
-- Empty states
-
-The interface must feel excellent on:
-
-320px
-
-375px
-
-390px
-
-430px
-
-768px
-
-1024px
-
-1440px+
-
-screens.
-
-==================================================
-
-MOBILE EXPERIENCE
-
-==================================================
-
-Mobile is NOT an afterthought.
-
-Students will primarily use this platform from their phones.
-
-Design for:
-
-one-handed usage.
-
-Buttons should be easy to tap.
-
-Important actions should remain reachable.
-
-The "Report an Issue" action should be highly accessible.
-
-Use mobile-native interaction patterns where appropriate.
-
-Avoid tiny desktop UI controls.
-
-==================================================
-
-INTERACTION DESIGN
-
-==================================================
-
-Build a consistent interaction system.
-
-Buttons should have:
-
-- hover state
-
-- active state
-
-- focus state
-
-- disabled state
-
-- loading state
-
-Cards should have consistent interaction behaviour.
-
-Links should have clear states.
-
-Forms should eventually support:
-
-- validation
-
-- loading
-
-- success
-
-- error
-
-- empty
-
-- retry
-
-Use subtle transitions between states.
-
-==================================================
-
-SCROLL EXPERIENCE
-
-==================================================
-
-The landing page should have a strong scroll narrative.
-
-As the user scrolls:
-
-Corridor Hills identity
-
-↓
-
-Residence lifestyle
-
-↓
-
-Community
-
-↓
-
-Maintenance problem
-
-↓
-
-Simple digital solution
-
-↓
-
-Report
-
-↓
-
-Track
-
-↓
-
-Resolve
-
-↓
-
-CTA
-
-This should feel like a story.
-
-Do not make every section look like an isolated component.
-
-Sections should visually transition into one another.
-
-==================================================
-
-PERFORMANCE
-
-==================================================
-
-Despite the rich visuals, performance is extremely important.
-
-Optimize the uploaded media.
-
-Do not load enormous videos immediately if unnecessary.
-
-Use:
-
-- poster images
-
-- lazy loading
-
-- responsive image sizes
-
-- appropriate video preload strategy
-
-- compressed media
-
-- modern image formats where possible
-
-Do not sacrifice performance for animation.
-
-Respect:
-
-prefers-reduced-motion.
-
-If the user has reduced motion enabled, reduce or disable non-essential animation.
-
-==================================================
-
-TECHNICAL DESIGN
-
-==================================================
-
-Use a modern React-based frontend.
-
-Use the project's modern React + TanStack Start stack.
-
-Keep the code clean and componentized.
-
-Create reusable components for:
-
-- Navigation
-
-- Buttons
-
-- Typography
-
-- Media sections
-
-- Image galleries
-
-- Video sections
-
-- CTA sections
-
-- Status components
-
-- Cards
-
-- Containers
-
-- Section wrappers
-
-- Mobile navigation
-
-Create design tokens for:
-
-- colours
-
-- typography
-
-- spacing
-
-- radius
-
-- shadows
-
-- animation durations
-
-- breakpoints
-
-Do not hardcode random values throughout the application.
-
-Create a coherent design system.
-
-==================================================
-
-VISUAL CONSISTENCY
-
-==================================================
-
-Everything must feel like the same product.
-
-Maintain consistent:
-
-- border radius
-
-- spacing
-
-- typography
-
-- button geometry
-
-- iconography
-
-- shadows
-
-- animation timing
-
-- colour usage
-
-- image treatment
-
-- container widths
-
-Do not randomly change styles from section to section.
-
-==================================================
-
-ICONS
-
-==================================================
-
-Use one consistent icon family.
-
-Do not mix:
-
-- random emojis
-
-- random SVG styles
-
-- FontAwesome
-
-- Lucide
-
-- custom icons
-
-Use a professional icon system consistently.
-
-Icons should support the interface rather than dominate it.
-
-==================================================
-
-DO NOT DO THESE THINGS
-
-==================================================
-
-DO NOT create a generic AI dashboard.
-
-DO NOT use:
-
-- purple AI gradients
-
-- glowing neon cards
-
-- glassmorphism everywhere
-
-- excessive gradients
-
-- generic SaaS landing page templates
-
-- random floating blobs
-
-- excessive rounded cards
-
-- stock photography
-
-- generic "Welcome to the future of maintenance" copy
-
-- fake statistics
-
-- fake testimonials
-
-- fake user reviews
-
-- fake maintenance numbers
-
-- fake university endorsements
-
-- fake integrations
-
-DO NOT invent facts about Corridor Hills.
-
-Only use information and media provided by me.
-
-DO NOT create an admin dashboard.
-
-DO NOT create a maintenance staff dashboard.
-
-DO NOT put technical system information in the student landing page.
-
-==================================================
-
-CONTENT STYLE
-
-==================================================
-
-Copy should be:
-
-short
-
-confident
-
-human
-
-warm
-
-modern
-
-student-friendly
-
-Avoid corporate jargon.
-
-Avoid:
-
-"Leverage"
-
-"Transform"
-
-"Revolutionize"
-
-"Next-generation"
-
-"AI-powered"
-
-"Seamless ecosystem"
-
-"Digital transformation"
-
-The product should speak like a real residence brand.
-
-==================================================
-
-FINAL VISUAL TARGET
-
-==================================================
-
-When finished, I want someone to open the website and think:
-
-"This is a real product."
-
-Then:
-
-"This is Corridor Hills."
-
-Then:
-
-"Oh, I can report a problem here."
-
-NOT:
-
-"This looks like an unpolished or generic template."
-
-The website should feel intentionally designed.
-
-It should have:
-
-strong typography
-
-excellent spacing
-
-beautiful media
-
-smooth transitions
-
-cinematic motion
-
-strong visual hierarchy
-
-consistent branding
-
-mobile-first interaction
-
-premium UI
-
-real product thinking.
-
-==================================================
-
-BUILD ORDER
-
-==================================================
-
-Do NOT try to build the entire platform immediately.
-
-Phase 1:
-
-1. Establish design system
-
-2. Establish typography
-
-3. Establish Corridor Hills colour system
-
-4. Configure logo
-
-5. Configure favicon/PWA identity
-
-6. Build responsive navigation
-
-7. Build immersive landing page
-
-8. Integrate supplied videos
-
-9. Integrate supplied images
-
-10. Build motion system
-
-11. Build mobile navigation
-
-12. Build student CTA
-
-13. Build initial student login entry
-
-14. Build responsive states
-
-15. Polish spacing and transitions
-
-Only after the landing page is visually excellent should we proceed to:
-
-- student authentication
-
-- student dashboard
-
-- report maintenance flow
-
-- request tracking
-
-- notifications
-
-- request details
-
-- profile
-
-We will handle those in subsequent iterations.
-
-==================================================
-
-MOST IMPORTANT REQUIREMENT
-
-==================================================
-
-DO NOT optimize for "how much functionality can be generated."
-
-Optimize for:
-
-DESIGN QUALITY.
-
-Take the time to establish a strong visual system before adding functionality.
-
-The first screen must immediately communicate the identity of Corridor Hills Residence.
-
-Use the actual uploaded Corridor Hills logo, photographs and videos.
-
-The result should look like a professionally commissioned digital product, not an AI-generated template.
-
-START BY BUILDING THE STUDENT LANDING EXPERIENCE.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+### Installation
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+# Clone the repository
+git clone https://github.com/Drey780822/corridor-hills-residence.git
+cd corridor-hills-residence
+
+# Install project dependencies
+npm install
+
+# Start local development server
 npm run dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Available Scripts
+
+```sh
+# Run unit & operations test suite
+npx tsx tests/operations.test.ts
+
+# Run static linter
+npm run lint
+
+# Format codebase with Prettier
+npm run format
+
+# Compile production client & SSR bundle
+npm run build
+
+# Preview production build locally
+npx vite preview
+
+# Re-generate stakeholder PDF guide (requires headless Chrome)
+node scripts/generate-stakeholder-guide-pdf.cjs
+```
+
+---
+
+## 📄 Documentation & Resources
+
+- **[Stakeholder Operations Guide (PDF)](./Corridor_Hills_Residence_Stakeholder_Operations_Guide.pdf)** — Official 5-page publication-grade PDF handbook for university executives and operations leadership.
+- **[Stakeholder Operations Guide (HTML)](./docs/corridor-hills-stakeholder-guide.html)** — Standalone web-viewable format of the operations handbook.
+- **[Brand & Agent Guidelines](./AGENTS.md)** — Architectural principles, TUT brand tokens, and engineering constraints.
+
+---
+
+<div align="center">
+  <sub>Tshwane University of Technology &bull; Corridor Hills Residence Digital Platform &bull; Deployed on Vercel</sub>
+</div>
